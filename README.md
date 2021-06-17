@@ -2,7 +2,7 @@
 This repository contains community-created extensions for the Inventory Engine, More Mountains' bestselling inventory solution, [available on the Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/inventory-engine-95550?aid=1011lKhG). These extensions can be anything, from an alternate take on existing features, to brand new ones, or new ways to use the engine.
 
 ## Contents
-* **RemoveItemByIDInventory**, _by AlexanderGheorghe_ : An extension of Inventory which adds a public method for removing a quantity of an item by its ID and additional checks for the RemoveItem method.
+* **RemoveItemByIDInventory**, _by AlexanderGheorghe_ : An extension of Inventory which adds a public method for removing a quantity of an item by its ID and additional checks for the RemoveItem method. Also includes an extension of InventoryTester so you can play with the new API.
 
 ## Why aren't these in the engine directly?
 Because they weren't created by Renaud, the creator of the Inventory Engine, because I want to keep the Engine simple to use and just pouring features into it (as cool as they may be) wouldn't be such a great idea, and because the Engine is meant to be extended upon, and these extensions are great examples of that.
