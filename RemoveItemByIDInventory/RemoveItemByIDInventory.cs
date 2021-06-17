@@ -19,7 +19,7 @@ namespace InventoryEngineExtensions
 
         public override bool RemoveItem(int i, int quantity)
         {
-            return i < Content.Length && quantity > 0 && base.RemoveItem(i, quantity);
+            return i >= 0 && i < Content.Length && quantity > 0 && base.RemoveItem(i, quantity);
         }
     }
 }
