@@ -2,6 +2,7 @@
 This repository contains community-created extensions for the Inventory Engine, More Mountains' bestselling inventory solution, [available on the Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/inventory-engine-95550?aid=1011lKhG). These extensions can be anything, from an alternate take on existing features, to brand new ones, or new ways to use the engine.
 
 ## Contents
+* **InventoryDragAndDrop**, _by AlexanderGheorghe_ : put this component on your InventoryCanvas GameObject and enjoy using drag and drop to move items between slots or to drop them out of your inventory
 * **RemoveItemByIDInventory**, _by AlexanderGheorghe_ : An extension of Inventory which adds a public method for removing a quantity of an item by its ID and additional checks for the RemoveItem method. Also includes an extension of InventoryTester so you can play with the new API.
 * **StorageVendorMultiInventoryDetails** _by men8_ : these are hosted separately at https://github.com/men8/TopDownEngineStorageAndVendor https://github.com/men8/CorgiEngineStorageAndVendor https://github.com/men8/MultiInventoryDetails
 
