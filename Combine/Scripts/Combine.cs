@@ -48,7 +48,7 @@ namespace Combine
         public CombineRecipe[] CombineRecipes;
         private Dictionary<(string, string), InventoryItem> _combinationResult;
 
-        private void OnValidate()
+        private void Awake()
         {
             _combinationResult = new Dictionary<(string, string), InventoryItem>();
             foreach (var recipe in CombineRecipes)
@@ -56,6 +56,11 @@ namespace Combine
                 if (recipe.Item1 == null || recipe.Item2 == null || recipe.Result == null) return;
                 _combinationResult[(recipe.Item1.ItemID, recipe.Item2.ItemID)] = recipe.Result;
             }
+        }
+
+        private void OnValidate()
+        {
+            Awake();
         }
 
         private bool TryCombineItems(Inventory item1Inventory, int item1Index, Inventory item2Inventory, int item2Index)
