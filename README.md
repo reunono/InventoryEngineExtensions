@@ -2,6 +2,7 @@
 This repository contains community-created extensions for the Inventory Engine, More Mountains' bestselling inventory solution, [available on the Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/inventory-engine-95550?aid=1011lKhG). These extensions can be anything, from an alternate take on existing features, to brand new ones, or new ways to use the engine.
 
 ## Contents
+* **Combine**, _by AlexanderGheorghe_ : simple combination crafting system (1A + 1B = 1C, where A, B and C are InventoryItems). includes a modified version of InventoryDragAndDrop and a unitypackage for easy installation
 * **InventoryDoubleClick**, _by AlexanderGheorghe_ : put this component on your InventoryCanvas GameObject and enjoy using double clicks to equip/unequip and use items. compatible with InventoryDragAndDrop
 * **InventoryDragAndDrop**, _by AlexanderGheorghe_ : put this component on your InventoryCanvas GameObject and enjoy using drag and drop to move, swap, drop and equip items. compatible with InventoryDoubleClick
 * **RemoveItemByIDInventory**, _by AlexanderGheorghe_ : An extension of Inventory which adds a public method for removing a quantity of an item by its ID and additional checks for the RemoveItem method. Also includes an extension of InventoryTester so you can play with the new API.
