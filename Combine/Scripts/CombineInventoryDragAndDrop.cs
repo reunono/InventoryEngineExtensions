@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MoreMountains.InventoryEngine;
-using MoreMountains.Tools;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Combine
 {
-    public class CombineInventoryDragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, MMEventListener<CombinedEvent>
+    public class CombineInventoryDragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private GraphicRaycaster _raycaster;
         private Canvas _canvas;
@@ -17,7 +15,7 @@ namespace Combine
         private InventoryItem _item;
         private Inventory _inventory;
         private string _playerID;
-        private bool _combined;
+        public Combine Combine;
         
         private void Awake()
         {
@@ -75,12 +73,9 @@ namespace Combine
                 var destinationInventory = destinationSlot.ParentInventoryDisplay.TargetInventory;
                 var destinationItem = destinationInventory.Content[destinationSlot.Index];
                 var isDestinationEmpty = InventoryItem.IsNull(destinationItem);
-                if (!isDestinationEmpty)
-                {
-                    _combined = false;
-                    TryCombineEvent.Trigger(_inventory, _slot.Index, destinationInventory, destinationSlot.Index);
-                    if (_combined) return;
-                }
+                if (!isDestinationEmpty &&
+                    Combine.TryCombineItems(_inventory, _slot.Index, destinationInventory, destinationSlot.Index))
+                    return;
                 if (_inventory == destinationInventory && (_item.CanMoveObject && isDestinationEmpty || _item.CanSwapObject && !isDestinationEmpty && destinationItem.CanSwapObject))
                     _inventory.MoveItem(_slot.Index, destinationSlot.Index);
                 else if (_item.IsEquippable && _item.TargetEquipmentInventoryName == destinationInventory.name)
@@ -124,21 +119,6 @@ namespace Combine
                 return;
             }
             _slot.Drop();
-        }
-
-        public void OnMMEvent(CombinedEvent combinedEvent)
-        {
-            _combined = true;
-        }
-
-        private void OnEnable()
-        {
-            this.MMEventStartListening();
-        }
-
-        private void OnDisable()
-        {
-            this.MMEventStopListening();
         }
     }
 }

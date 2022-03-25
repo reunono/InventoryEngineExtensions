@@ -1,39 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using MoreMountains.InventoryEngine;
-using MoreMountains.Tools;
 using UnityEngine;
 
 namespace Combine
 {
-    public struct TryCombineEvent
-    {
-        public Inventory Item1Inventory;
-        public int Item1Index;
-        public Inventory Item2Inventory;
-        public int Item2Index;
-        private static TryCombineEvent e;
-
-        public static void Trigger(Inventory item1Inventory, int item1Index, Inventory item2Inventory, int item2Index)
-        {
-            e.Item1Inventory = item1Inventory;
-            e.Item1Index = item1Index;
-            e.Item2Inventory = item2Inventory;
-            e.Item2Index = item2Index;
-            MMEventManager.TriggerEvent(e);
-        }
-    }
-    
-    public struct CombinedEvent
-    {
-        private static CombinedEvent e;
-
-        public static void Trigger()
-        {
-            MMEventManager.TriggerEvent(e);
-        }
-    }
-
     [Serializable]
     public struct CombineRecipe
     {
@@ -43,7 +14,7 @@ namespace Combine
     }
 
     [CreateAssetMenu]
-    public class Combine : ScriptableObject, MMEventListener<TryCombineEvent>
+    public class Combine : ScriptableObject
     {
         public CombineRecipe[] CombineRecipes;
         private Dictionary<(string, string), InventoryItem> _combinationResult;
@@ -51,6 +22,7 @@ namespace Combine
         private void Awake()
         {
             _combinationResult = new Dictionary<(string, string), InventoryItem>();
+            if (CombineRecipes == null) return;
             foreach (var recipe in CombineRecipes)
             {
                 if (recipe.Item1 == null || recipe.Item2 == null || recipe.Result == null) return;
@@ -63,7 +35,7 @@ namespace Combine
             Awake();
         }
 
-        private bool TryCombineItems(Inventory item1Inventory, int item1Index, Inventory item2Inventory, int item2Index)
+        public bool TryCombineItems(Inventory item1Inventory, int item1Index, Inventory item2Inventory, int item2Index)
         {
             var item1ID = item1Inventory.Content[item1Index].ItemID;
             var item2ID = item2Inventory.Content[item2Index].ItemID;
@@ -74,22 +46,6 @@ namespace Combine
             item1Inventory.AddItem(result, 1);
             if (item1Inventory.InventoryType == Inventory.InventoryTypes.Equipment) result.Equip("Player1");
             return true;
-        }
-
-        public void OnMMEvent(TryCombineEvent tryCombineEvent)
-        {
-            if (TryCombineItems(tryCombineEvent.Item1Inventory, tryCombineEvent.Item1Index, tryCombineEvent.Item2Inventory, tryCombineEvent.Item2Index))
-                CombinedEvent.Trigger();
-        }
-
-        private void OnEnable()
-        {
-            this.MMEventStartListening();
-        }
-        
-        private void OnDisable()
-        {
-            this.MMEventStopListening();
         }
     }
 }
