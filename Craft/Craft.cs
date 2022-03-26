@@ -6,68 +6,40 @@ using UnityEngine;
 namespace Craft
 {
     [Serializable]
-    public abstract class DisplayNiceNameInInspectorList : ISerializationCallbackReceiver
+    public class Ingredient : ISerializationCallbackReceiver
     {
         [HideInInspector]
-        [SerializeField]
-        protected string _name;
-
-        protected abstract void SetName();
-
-        public void OnBeforeSerialize()
-        {
-            SetName();
-        }
- 
-        public void OnAfterDeserialize()
-        {
-            SetName();
-        }
-    }
-    
-    [Serializable]
-    public class Ingredient : DisplayNiceNameInInspectorList
-    {
+        public string Name;
         public InventoryItem Item;
         public int Quantity;
 
-        protected override void SetName()
-        {
-            _name = Quantity + " x " + (Item == null ? "null" : Item.ItemName);
-        }
-
-        public override string ToString()
-        {
-            return Quantity + " " + Item.ItemName + (Quantity > 1 ? "s" : "");
-        }
+        public void OnBeforeSerialize() { Name = ToString(); }
+        public void OnAfterDeserialize() { Name = ToString(); }
+        public override string ToString() { return (Quantity == 1 ? "" : Quantity + " ") + (Item == null ? "null" : Item.ItemName) + (Quantity > 1 ? "s" : ""); }
     }
 
     [Serializable]
-    public class Recipe : DisplayNiceNameInInspectorList
+    public class Recipe : Ingredient
     {
         public Ingredient[] Ingredients;
-        public InventoryItem Result;
-        public string IngredientsText => string.Join(", ", Ingredients.Select(ingredient => ingredient.ToString()));
-     
-        protected override void SetName()
-        {
-            _name = Result == null ? "null" : Result.ItemName;
-        }
+        public string IngredientsText => string.Join(", ", Ingredients.Select(ingredient => ingredient.Name));
     }
 
     public static class Crafting
     {
-        public static bool CanCraft(this Inventory inventory, Recipe recipe)
+        public static bool ContainsIngredientsForRecipe(this Inventory inventory, Recipe recipe)
         {
             return !recipe.Ingredients.Any(ingredient => inventory.InventoryContains(ingredient.Item.ItemID).Sum(index => inventory.Content[index].Quantity) < ingredient.Quantity);
         }
         
         public static void Craft(this Inventory inventory, Recipe recipe)
         {
-            if (!inventory.CanCraft(recipe)) return;
+            if (!inventory.ContainsIngredientsForRecipe(recipe)) return;
             foreach (var ingredient in recipe.Ingredients)
                 inventory.RemoveItemByID(ingredient.Item.ItemID, ingredient.Quantity);
-            inventory.AddItem(recipe.Result, 1);
+            if (inventory.AddItem(recipe.Item, recipe.Quantity)) return;
+            foreach (var ingredient in recipe.Ingredients)
+                inventory.AddItem(ingredient.Item, ingredient.Quantity);
         }
     }
     
