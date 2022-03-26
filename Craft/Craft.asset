@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd06db2b606dece48ad4302f748a5d3d, type: 3}
+  m_Name: Craft
+  m_EditorClassIdentifier: 
+  Recipes:
+  - _name: Axe
+    Ingredients:
+    - _name: 2 x Apple
+      Item: {fileID: 11400000, guid: 40876a02f1980694e94d7190565ee90c, type: 2}
+      Quantity: 2
+    - _name: 1 x Coin
+      Item: {fileID: 11400000, guid: 2c96dc824a5c07d499919dd781334700, type: 2}
+      Quantity: 1
+    - _name: 1 x Sword
+      Item: {fileID: 11400000, guid: 2c6c3c9fc82f7484ab8b3ee19e0a0cad, type: 2}
+      Quantity: 1
+    Result: {fileID: 11400000, guid: af2c14f3bde655947aca0d6a7b8dbeb8, type: 2}
+  - _name: Minigun
+    Ingredients:
+    - _name: 1 x Blue Armor
+      Item: {fileID: 11400000, guid: c58f83dbd7ec992468a567ad0968326e, type: 2}
+      Quantity: 1
+    - _name: 1 x Green Armor
+      Item: {fileID: 11400000, guid: 0e9c3056cd0243f40bce0e8e2636b8ce, type: 2}
+      Quantity: 1
+    - _name: 3 x Coin
+      Item: {fileID: 11400000, guid: 2c96dc824a5c07d499919dd781334700, type: 2}
+      Quantity: 3
+    Result: {fileID: 11400000, guid: 23f15b9bad261b545acbe8659a1d279a, type: 2}
+  - _name: Bomb
+    Ingredients:
+    - _name: 5 x Apple
+      Item: {fileID: 11400000, guid: 40876a02f1980694e94d7190565ee90c, type: 2}
+      Quantity: 5
+    Result: {fileID: 11400000, guid: 73d7843da02c41646b5d0e016d55d908, type: 2}
