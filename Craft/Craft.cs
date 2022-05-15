@@ -37,7 +37,11 @@ namespace Craft
             if (!inventory.ContainsIngredientsForRecipe(recipe)) return;
             foreach (var ingredient in recipe.Ingredients)
                 inventory.RemoveItemByID(ingredient.Item.ItemID, ingredient.Quantity);
-            if (inventory.AddItem(recipe.Item, recipe.Quantity)) return;
+            if (inventory.AddItem(recipe.Item, recipe.Quantity))
+            {
+                MMInventoryEvent.Trigger(MMInventoryEventType.Pick, null, string.Empty, recipe.Item, recipe.Quantity, 0, "Player1");
+                return;
+            }
             foreach (var ingredient in recipe.Ingredients)
                 inventory.AddItem(ingredient.Item, ingredient.Quantity);
         }
