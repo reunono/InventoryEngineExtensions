@@ -110,6 +110,12 @@ namespace InventoryDragAndDrop
                         MMInventoryEvent.Trigger(MMInventoryEventType.ContentChanged, null, _inventory.name, null, 0, 0, _playerID);
                     }
                 }
+                else if (_inventory != destinationInventory && isDestinationEmpty)
+                {
+                    _inventory.MoveItemToInventory(_slot.Index, destinationInventory, destinationSlot.Index);
+                    MMInventoryEvent.Trigger(MMInventoryEventType.ContentChanged, null, _inventory.name, null, 0, 0, _playerID);
+                    MMInventoryEvent.Trigger(MMInventoryEventType.ContentChanged, null, destinationInventory.name, null, 0, 0, _playerID);
+                }
 
                 return;
             }
