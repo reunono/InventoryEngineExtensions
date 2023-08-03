@@ -14,7 +14,7 @@ namespace Craft
         public int Quantity;
 
         public void OnBeforeSerialize() { Name = ToString(); }
-        public void OnAfterDeserialize() { Name = ToString(); }
+        public void OnAfterDeserialize() {}
         public override string ToString() { return (Quantity == 1 ? "" : Quantity + " ") + (Item == null ? "null" : Item.ItemName) + (Quantity > 1 ? "s" : ""); }
     }
 
