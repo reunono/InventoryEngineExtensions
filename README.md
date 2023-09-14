@@ -6,6 +6,7 @@ This repository contains community-created extensions for the Inventory Engine, 
 * **Combine**, _by AlexanderGheorghe_ : simple combination crafting system (1A + 1B = 1C, where A, B and C are InventoryItems). includes a modified version of InventoryDragAndDrop and a unitypackage for easy installation
 * **InventoryDoubleClick**, _by AlexanderGheorghe_ : put this component on your InventoryCanvas GameObject and enjoy using double clicks to equip/unequip and use items. compatible with InventoryDragAndDrop
 * **InventoryDragAndDrop**, _by AlexanderGheorghe_ : put this component on your InventoryCanvas GameObject and enjoy using drag and drop to move, swap, drop and equip items. compatible with InventoryDoubleClick
+* **PickupDisplayer**, _by AlexanderGheorghe_ : displays items you pick up and their quantities, similar to how MMAchievementsDisplayer displays achievements. includes a unitypackage for easy installation
 * **RemoveItemByIDInventory**, _by AlexanderGheorghe_ : An extension of Inventory which adds a public method for removing a quantity of an item by its ID and additional checks for the RemoveItem method. Also includes an extension of InventoryTester so you can play with the new API.
 * **StorageVendorMultiInventoryDetails**, _by men8_ : these are hosted separately at https://github.com/men8/TopDownEngineStorageAndVendor https://github.com/men8/CorgiEngineStorageAndVendor https://github.com/men8/MultiInventoryDetails
 
