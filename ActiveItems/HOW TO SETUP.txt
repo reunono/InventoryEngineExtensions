@@ -1,0 +1,23 @@
+A demo Unity scene is in the root folder.
+Open it to have an example to see how it works.
+
+I assume you have a basic knowledge about making a simple Item inside the Inventory Engine.
+
+You have only one item in this inventory. If you pick another active item with this script it will drop the current held item and pick the new one instead.
+
+
+> Create a new Main Inventory 
+> Put the ActiveItemPicker script found in Script/ on the itemPicker of the item you want to set as "active" (as in "The Binding of Isaac" for example, you can only have one card, and/or one active item).
+	// You'll want to tick the 3 boxes in the picker script, at least the 2 first ones.
+> Don't forget to redirect your items to the active items inventory in your item scriptable object.
+
+NOTE : If you have trouble picking your item, change it's drop properties for it to spawn farther.
+
+
+I suppose if you want more items in this inventory you could :
+	1_ increase the slots
+	2_ have a reference of the first and last slot
+	3_ drop the first item in this inventory, move all active items you have (the 2nd becomes the 1st, 3rd becomes the 2nd...) to pick a new one in the now-empty last slot.
+
+
+Have fun making your game !
