@@ -89,8 +89,42 @@ MonoBehaviour:
   MovedSound: {fileID: 0}
   DroppedSound: {fileID: 0}
   UseDefaultSoundsIfNull: 1
-  Components:
-  - {fileID: 11400000, guid: 8e3e841d992ea054d9b735b097700d71, type: 2}
-  - {fileID: 11400000, guid: 887842c714b15d84a93e29acce7e3534, type: 2}
-  - {fileID: 11400000, guid: 4ed2509917709684c87a7b31f43643ee, type: 2}
-  - {fileID: 11400000, guid: 01927b79fde8ee745829143db2e6c276, type: 2}
+  ComponentsAuthoring:
+  - rid: 5124767072208814083
+  - rid: 5124767072208814091
+  - rid: 5124767095431626869
+  - rid: 5124767072208814087
+  Components: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5124767072208814083
+      type: {class: ComposedItem/ComponentAuthoring, ns: , asm: Assembly-CSharp}
+      data:
+        Component: {fileID: 11400000, guid: 8e3e841d992ea054d9b735b097700d71, type: 2}
+    - rid: 5124767072208814087
+      type: {class: ComposedItem/ComponentAuthoringWithOverride, ns: , asm: Assembly-CSharp}
+      data:
+        Component: {fileID: 11400000, guid: 01927b79fde8ee745829143db2e6c276, type: 2}
+        Override:
+          rid: 5124767072208814088
+    - rid: 5124767072208814088
+      type: {class: DurabilityUseComponent/SerializedComponent, ns: , asm: Assembly-CSharp}
+      data:
+        Durability: 1
+        DurabilityLostPerUse: 0.2
+        RemoveItemWhenEmpty: 1
+    - rid: 5124767072208814091
+      type: {class: ComposedItem/ComponentAuthoring, ns: , asm: Assembly-CSharp}
+      data:
+        Component: {fileID: 11400000, guid: 887842c714b15d84a93e29acce7e3534, type: 2}
+    - rid: 5124767095431626869
+      type: {class: ComposedItem/ComponentAuthoringWithOverride, ns: , asm: Assembly-CSharp}
+      data:
+        Component: {fileID: 11400000, guid: 4ed2509917709684c87a7b31f43643ee, type: 2}
+        Override:
+          rid: 5124767095431626870
+    - rid: 5124767095431626870
+      type: {class: LogShortDescriptionUseComponent/Override, ns: , asm: Assembly-CSharp}
+      data:
+        Log: Performed shield bash attack

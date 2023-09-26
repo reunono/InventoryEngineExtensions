@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc9f9504dda12004aba58e351b4d9bf3, type: 3}
-  m_Name: MixedPotion
+  m_Name: LargeMixedPotion
   m_EditorClassIdentifier: 
-  ItemID: MixedPotion
+  ItemID: LargeMixedPotion
   TargetInventoryName: RogueMainInventory
   ForceSlotIndex: 0
   TargetIndex: 0
@@ -33,8 +33,8 @@ MonoBehaviour:
     DisplayUseButton: 1
     DisplayUnequipButton: 1
   Quantity: 1
-  ItemName: Mixed Potion
-  ShortDescription: Restores HP and MP
+  ItemName: Large Mixed Potion
+  ShortDescription: Restores a lot of HP and MP
   Description: 
   Icon: {fileID: 21300000, guid: a1fbd1aaf76d0b94e88551b7c406ee2c, type: 3}
   Prefab: {fileID: 7683146669859071997, guid: d310816bbbf36e249b7c219194cb606e, type: 3}
@@ -90,29 +90,29 @@ MonoBehaviour:
   DroppedSound: {fileID: 0}
   UseDefaultSoundsIfNull: 1
   ComponentsAuthoring:
-  - rid: 5124767095431626754
-  - rid: 5124767095431626756
+  - rid: 5124767095431626855
+  - rid: 5124767095431626856
   Components: []
   references:
     version: 2
     RefIds:
-    - rid: 5124767095431626754
+    - rid: 5124767095431626855
       type: {class: ComposedItem/ComponentAuthoringWithOverride, ns: , asm: Assembly-CSharp}
       data:
         Component: {fileID: 11400000, guid: 62681dbf6109fc541b8a7629e3d89cdd, type: 2}
         Override:
-          rid: 5124767095431626755
-    - rid: 5124767095431626755
-      type: {class: RecoverHealthComponent/SerializedComponent, ns: , asm: Assembly-CSharp}
-      data:
-        Health: 5
-    - rid: 5124767095431626756
+          rid: 5124767095431626857
+    - rid: 5124767095431626856
       type: {class: ComposedItem/ComponentAuthoringWithOverride, ns: , asm: Assembly-CSharp}
       data:
         Component: {fileID: 11400000, guid: 505275ddaf8d238408b5be54d46f90f9, type: 2}
         Override:
-          rid: 5124767095431626757
-    - rid: 5124767095431626757
+          rid: 5124767095431626858
+    - rid: 5124767095431626857
+      type: {class: RecoverHealthComponent/SerializedComponent, ns: , asm: Assembly-CSharp}
+      data:
+        Health: 50
+    - rid: 5124767095431626858
       type: {class: RecoverManaComponent/SerializedComponent, ns: , asm: Assembly-CSharp}
       data:
-        Mana: 5
+        Mana: 50

@@ -89,6 +89,26 @@ MonoBehaviour:
   MovedSound: {fileID: 0}
   DroppedSound: {fileID: 0}
   UseDefaultSoundsIfNull: 1
-  Components:
-  - {fileID: 11400000, guid: 8e3e841d992ea054d9b735b097700d71, type: 2}
-  - {fileID: 11400000, guid: d889edd964d8dfa40989b36f08128f68, type: 2}
+  ComponentsAuthoring:
+  - rid: 5124767095431626865
+  - rid: 5124767095431626867
+  Components: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5124767095431626865
+      type: {class: ComposedItem/ComponentAuthoring, ns: , asm: Assembly-CSharp}
+      data:
+        Component: {fileID: 11400000, guid: 8e3e841d992ea054d9b735b097700d71, type: 2}
+    - rid: 5124767095431626867
+      type: {class: ComposedItem/ComponentAuthoringWithOverride, ns: , asm: Assembly-CSharp}
+      data:
+        Component: {fileID: 11400000, guid: d889edd964d8dfa40989b36f08128f68, type: 2}
+        Override:
+          rid: 5124767095431626868
+    - rid: 5124767095431626868
+      type: {class: RandomizedDamageAttackUseComponent/SerializedComponent, ns: ,
+        asm: Assembly-CSharp}
+      data:
+        Damage: 0
+        DamageRange: {x: 10, y: 50}

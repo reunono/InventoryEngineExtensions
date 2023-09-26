@@ -7,7 +7,26 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ComposedItem : InventoryItem, IJsonSerializable, IInitializable
 {
-    public List<InventoryItem> Components;
+    [Serializable]
+    private class ComponentAuthoring
+    {
+        [SerializeField] public InventoryItem Component;
+        public ComponentAuthoring(){}
+        public ComponentAuthoring(ComponentAuthoring componentAuthoring) => Component = componentAuthoring.Component;
+        public virtual InventoryItem CreateComponent() => Component.Copy();
+        public virtual ComponentAuthoring DeepCopy() => new ComponentAuthoring(this);
+    }
+    private sealed class ComponentAuthoringWithOverride : ComponentAuthoring
+    {
+        [SerializeReference] private IOverride Override;
+        private IOverride NewOverride() => ((IOverridable)Component).NewOverride();
+        public ComponentAuthoringWithOverride(ComponentAuthoring componentAuthoring) : base(componentAuthoring) => Override = NewOverride();
+        private ComponentAuthoringWithOverride(ComponentAuthoringWithOverride componentAuthoring) : base(componentAuthoring) => Override = ((IOverridable)componentAuthoring.CreateComponent()).NewOverride();
+        public override InventoryItem CreateComponent() => (InventoryItem)((IOverridable)base.CreateComponent()).WithOverride(Override);
+        public override ComponentAuthoring DeepCopy() => new ComponentAuthoringWithOverride(this);
+    }
+    [SerializeReference] private List<ComponentAuthoring> ComponentsAuthoring = new List<ComponentAuthoring>();
+    [HideInInspector] public List<InventoryItem> Components;
     public override bool Pick(string playerID)
     {
         foreach (var component in Components) if (!component.Pick(playerID)) return false;
@@ -49,7 +68,7 @@ public class ComposedItem : InventoryItem, IJsonSerializable, IInitializable
         }
         public void Load(ComposedItem item)
         {
-            item.Components = Components.Select(component => Resources.Load<InventoryItem>(Inventory._resourceItemPath + component).Copy()).ToList();
+            item.Components = Components.Select(component => item.Components.FirstOrDefault(c => c.name == component) == null ? Resources.Load<InventoryItem>(Inventory._resourceItemPath + component).Copy() : item.Components.First(c => c.name == component).Copy()).ToList();
             foreach (var pair in item.Components.Zip(ComponentsSaveData, (component, saveData) => (component, saveData)))
                 (pair.component as IJsonSerializable)?.Load(pair.saveData);
         }
@@ -67,11 +86,16 @@ public class ComposedItem : InventoryItem, IJsonSerializable, IInitializable
     }
     public override InventoryItem Copy()
     {
+        Components ??= ComponentsAuthoring.Select(componentAuthoring => componentAuthoring.CreateComponent()).ToList();
         var clone = (ComposedItem)base.Copy();
         clone.Components = clone.Components.Select(component => component.Copy()).ToList();
         return clone;
     }
-    void IInitializable.Initialize() => Components.ForEach(component => (component as IInitializable)?.Initialize());
+    void IInitializable.Initialize()
+    {
+        Components ??= ComponentsAuthoring.Select(componentAuthoring => componentAuthoring.CreateComponent()).ToList();
+        Components.ForEach(component => (component as IInitializable)?.Initialize());
+    }
     public void Initialized() => Components.ForEach(component => (component as IInitializable)?.Initialized());
     public override void SpawnPrefab(string playerID)
     {
@@ -86,4 +110,25 @@ public class ComposedItem : InventoryItem, IJsonSerializable, IInitializable
         }
         MMSpawnAround.ApplySpawnAroundProperties(droppedObject, DropProperties, TargetInventory(playerID).TargetTransform.position);
     }
+    private void OnValidate()
+    {
+        for (var i = 0; i < ComponentsAuthoring.Count; i++)
+        {
+            if (ComponentsAuthoring[i] == null) ComponentsAuthoring[i] = new ComponentAuthoring();
+            else if (ComponentsAuthoring[i].Component is IOverridable && ComponentsAuthoring[i] is not ComponentAuthoringWithOverride)
+                ComponentsAuthoring[i] = new ComponentAuthoringWithOverride(ComponentsAuthoring[i]);
+            else if (ComponentsAuthoring[i].Component is not IOverridable && ComponentsAuthoring[i] is ComponentAuthoringWithOverride)
+                ComponentsAuthoring[i] = new ComponentAuthoring(ComponentsAuthoring[i]);
+            else if (ComponentsAuthoring[i].Component is ComposedItem composed)
+            {
+                ComponentsAuthoring.AddRange(composed.ComponentsAuthoring.Select(component => component.DeepCopy()));
+                ComponentsAuthoring[i] = null;
+            }
+        }
+        ComponentsAuthoring.RemoveAll(c => c == null);
+        Components = null;
+    }
+    private void OnEnable() => Application.quitting += Init;
+    private void OnDisable() => Application.quitting -= Init;
+    private void Init() => Components = null;
 }
