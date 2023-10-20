@@ -11,7 +11,7 @@ namespace InventoryDoubleClick
         private const float _doubleClickMaxDelay = .5f;
         private bool _clicked;
         private float _clickedTime;
-        private bool DoubleClick => _clicked && Time.time - _clickedTime < _doubleClickMaxDelay;
+        private bool DoubleClick => _clicked && Time.unscaledTime - _clickedTime < _doubleClickMaxDelay;
         
         public void OnMMEvent(MMInventoryEvent inventoryEvent)
         {
@@ -19,7 +19,7 @@ namespace InventoryDoubleClick
             if (!DoubleClick)
             {
                 _clicked = true;
-                _clickedTime = Time.time;
+                _clickedTime = Time.unscaledTime;
                 _slot = inventoryEvent.Slot;
             }
             else
