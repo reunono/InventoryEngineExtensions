@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class PersistentDrop : MonoBehaviour, MMEventListener<MMGameEvent>
 {
     private const string _folder = "PersistentDrop";
-    private static string File => SceneManager.GetActiveScene().name;
+    private static string Scene => SceneManager.GetActiveScene().name;
     [Serializable]
     private class Data
     {
@@ -34,18 +34,44 @@ public class PersistentDrop : MonoBehaviour, MMEventListener<MMGameEvent>
                 Instantiate(Resources.Load<InventoryItem>(Inventory._resourceItemPath+Item[i]).Prefab, Position[i], Quaternion.identity).GetComponent<ItemPicker>().Quantity = Quantity[i];
         }
     }
-    private readonly Data _data = new Data();
-    private void Save()
+    private const int _maxScenes = 30;
+    private static readonly Data[] _data = new Data[_maxScenes];
+    private static readonly string[] _scenes = new string[_maxScenes];
+    private static int _count;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void Init()
     {
-        _data.Set(FindObjectsOfType<ItemPicker>().Where(picker => picker.name.EndsWith("(Clone)")));
-        MMSaveLoadManager.Save(_data, File, _folder);
+        _count = 0;
+        for (var i = 0; i < _maxScenes; i++) _data[i] = new Data();
     }
-    private void Load() => ((Data)MMSaveLoadManager.Load(typeof(Data), File, _folder))?.Spawn();
     private void OnEnable() => this.MMEventStartListening();
     private void OnDisable() => this.MMEventStopListening();
     public void OnMMEvent(MMGameEvent gameEvent)
     {
-        if (gameEvent.EventName == "Save") Save();
-        else if (gameEvent.EventName == "Load") Load();
+        if (gameEvent.EventName == "Save")
+        {
+            SaveToMemory();
+            for (var i = 0; i < _count; i++) MMSaveLoadManager.Save(_data[i], _scenes[i], _folder);
+            _count = 0;
+        }
+        else if (gameEvent.EventName == "Load")
+        {
+            var scene = Scene;
+            var i = Array.IndexOf(_scenes, scene, 0, _count);
+            if (i == -1) ((Data)MMSaveLoadManager.Load(typeof(Data), scene, _folder))?.Spawn();
+            else _data[i].Spawn();
+        }
+        else if (gameEvent.EventName == "SaveToMemory") SaveToMemory();
+        void SaveToMemory()
+        {
+            var scene = Scene;
+            var i = Array.IndexOf(_scenes, scene, 0, _count);
+            if (i == -1)
+            {
+                i = _count++;
+                _scenes[i] = scene;
+            }
+            _data[i].Set(FindObjectsOfType<ItemPicker>().Where(picker => picker.name.EndsWith("(Clone)")));
+        }
     }
 }
